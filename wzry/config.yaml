@@ -1,0 +1,41 @@
+# 王者荣耀 · AutoJS + PC 桥接（推荐）
+#
+# PC:  python run_bridge.py
+# 手机: AutoX 运行 autox/wzry_play_bridge.js（改 PC_HOST）
+#
+# 纯手机（较慢）: autox/wzry_play.js
+
+bridge:
+  host: 0.0.0.0
+  port: 9330
+  pc_host: null
+  move_hold_ms: 400
+  log_every: 4
+  save_uploads: true
+  save_dir: debug_uploads
+  save_every: 1
+  save_max: 500
+
+follow:
+  ally_bar_h_min: 33
+  ally_bar_h_max: 36
+  ally_bar_min_width: 80
+  ally_bar_width_ratio: 3.0
+  blue_hsv_low: [90, 50, 50]
+  blue_hsv_high: [130, 255, 255]
+  player_x_ratio: 0.5
+  player_y_ratio: 0.55
+  follow_max_dist_ratio: 1.0
+  follow_close_dist: 15
+  sticky_ms: 2000
+
+rules:
+  skill1_interval_sec: 1.0
+  low_hp_ratio: 0.5
+  red_bar_pixels: 120
+  field_crop: [0.10, 0.78, 0.12, 0.88]
+  own_hp_crop: [0.84, 0.98, 0.01, 0.28]
+
+match:
+  kda_crop: [0.03, 0.12, 0.38, 0.62]
+  result_crop: [0.28, 0.52, 0.32, 0.68]
