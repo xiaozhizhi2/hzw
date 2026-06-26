@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """检查本机环境。"""
 
+
 from __future__ import annotations
 
 import json

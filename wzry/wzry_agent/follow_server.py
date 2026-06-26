@@ -31,6 +31,11 @@ class FollowPlayServer:
     if self.save_uploads:
       self._save_dir.mkdir(parents=True, exist_ok=True)
       print(f"[bridge] 上传截图保存到 {self._save_dir}", flush=True)
+    names = self.agent.teammate_names
+    if names:
+      print(f"[bridge] 跟随队友: {', '.join(names)}", flush=True)
+    else:
+      print("[bridge] 警告: follow.teammate_names 未配置", flush=True)
     self._bridge = LearnBridge(
       self._on_step,
       host=str(bridge.get("host", "0.0.0.0")),
@@ -55,7 +60,11 @@ class FollowPlayServer:
     rule_tag = "" if not rule else f"_{rule}"
     name = f"{phase}_{self._save_count:05d}{n_tag}{rule_tag}.png"
     path = self._save_dir / name
+    t_start = time.perf_counter()
     cv2.imwrite(str(path), frame)
+    t_save = (time.perf_counter() - t_start) * 1000
+    if self._save_count <= 3 or self._save_count % self.log_every == 0:
+      print(f"[timing] 保存截图: {t_save:.1f} ms", flush=True)
     return path
 
   def _trim_saved(self) -> None:
@@ -108,11 +117,13 @@ class FollowPlayServer:
   def _handle_wait(self, step: PhoneStep) -> dict:
     if step.frame is None:
       return {"ready": False, "hold_ms": self.move_hold_ms}
+    t_start = time.perf_counter()
     ready = has_hp_bar(step.frame)
     sig = hp_signals(step.frame)
+    t_detect = (time.perf_counter() - t_start) * 1000
     if ready:
       self._hp_miss = 0
-      print(f"[wait] 识别到血条 {sig}", flush=True)
+      print(f"[wait] 识别到血条 {sig} [timing] 识别: {t_detect:.1f} ms", flush=True)
     self._maybe_save(step, phase="wait", rule="ready" if ready else "wait")
     return {"ready": ready, "hold_ms": self.move_hold_ms, "signals": sig}
 
@@ -127,24 +138,29 @@ class FollowPlayServer:
     else:
       self._hp_miss += 1
 
+    t_start = time.perf_counter()
     action_id, info = self.agent.decide(step.frame)
+    t_detect = (time.perf_counter() - t_start) * 1000
     rule = str(info.get("rule", "idle"))
 
     if not self._logged_shape and step.frame is not None:
       h, w = step.frame.shape[:2]
-      print(f"[play] frame {w}x{h} barH={info.get('bar_h')}", flush=True)
+      print(f"[play] frame {w}x{h} follow={self.agent.teammate_names!r}", flush=True)
       self._logged_shape = True
 
     if self.log_every > 0 and info.get("step", 0) % self.log_every == 0:
-      allies = info.get("allies") or []
-      ally_txt = ""
-      if allies:
-        a0 = allies[0]
-        ally_txt = f" tgt=({a0.get('x')},{a0.get('y')},{a0.get('w')}x{a0.get('h')})"
+      tgt = info.get("target") or {}
+      tgt_txt = ""
+      if tgt:
+        tgt_txt = (
+          f" hit=({tgt.get('x')},{tgt.get('y')},{tgt.get('w')}x{tgt.get('h')})"
+          f" via={tgt.get('method')} score={tgt.get('score')}"
+        )
       print(
         f"[play] step={info.get('step')} rule={rule} "
         f"act={ACTION_NAMES.get(action_id, action_id)} "
-        f"n={info.get('ally_count')} barH={info.get('bar_h')}{ally_txt} "
+        f"found={info.get('target_found', 0)}{tgt_txt} "
+        f"[timing] 识别: {t_detect:.1f} ms "
         f"{info.get('reason', '')}",
         flush=True,
       )

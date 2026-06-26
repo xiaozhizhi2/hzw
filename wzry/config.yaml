@@ -9,25 +9,26 @@ bridge:
   host: 0.0.0.0
   port: 9330
   pc_host: null
-  move_hold_ms: 400
-  log_every: 4
-  save_uploads: true
+  move_hold_ms: 800
+  log_every: 8
+  save_uploads: false
   save_dir: debug_uploads
-  save_every: 1
+  save_every: 10
   save_max: 500
 
 follow:
-  ally_bar_h_min: 33
-  ally_bar_h_max: 36
-  ally_bar_min_width: 80
-  ally_bar_width_ratio: 3.0
-  blue_hsv_low: [90, 50, 50]
-  blue_hsv_high: [130, 255, 255]
+  # 要紧跟的队友名字（必填，支持多个）
+  # 格式1: teammate_names: ["队友1", "队友2", "队友3"]
+  # 格式2: teammate_names: "队友1,队友2,队友3"
+  teammate_names: ["泥石流", "怎么说", "花球", "小青龙", "五里", "倾雨", "吃火锅"]
+  field_crop: [0.08, 0.78, 0.02, 0.98]
+  ocr_min_score: 0.4
+  name_below_offset: 48
   player_x_ratio: 0.5
   player_y_ratio: 0.55
-  follow_max_dist_ratio: 1.0
-  follow_close_dist: 15
-  sticky_ms: 2000
+  follow_max_dist_ratio: 0.5
+  follow_close_dist: 80
+  sticky_ms: 5000
 
 rules:
   skill1_interval_sec: 1.0
