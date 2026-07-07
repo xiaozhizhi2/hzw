@@ -1,0 +1,11 @@
+[2m2026-07-06T10:07:50.119660Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m session retention: store=memory dir=.codex-relay-history ttl=168h max_sessions=256 max_session_memory=512 MiB
+[2m2026-07-06T10:07:50.126168Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m codex-relay listening on 127.0.0.1:4444 → https://api.deepseek.com/v1
+[2m2026-07-06T10:07:50.241233Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m upstream models: deepseek-v4-flash, deepseek-v4-pro
+[2m2026-07-06T10:07:50.241777Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m ⚠️  To configure Codex with model metadata, run:  codex-relay --print-config --upstream https://api.deepseek.com/v1 --api-key ...
+[2m2026-07-06T10:08:01.397637Z[0m [33m WARN[0m [2mcodex_relay[0m[2m:[0m unhandled HEAD /v1
+[2m2026-07-06T10:08:01.400074Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
+[2m2026-07-06T10:18:28.781841Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
+[2m2026-07-06T10:18:29.007843Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
+[2m2026-07-06T10:19:12.029378Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
+[2m2026-07-06T10:19:28.239706Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
+[2m2026-07-06T10:19:57.556013Z[0m [32m INFO[0m [2mcodex_relay[0m[2m:[0m GET /v1/models
