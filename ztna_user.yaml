@@ -1,0 +1,12 @@
+defaults:
+  organizationName: CBC1
+  groupName: uuu1
+ztna_users:
+- name: test.20260702.cli3
+  groupName: uuu1
+  email: a@qq.com
+  phone: 18211111111
+  description: test
+  devices:
+  - name: bbj
+  - name: dgd

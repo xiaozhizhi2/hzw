@@ -1,0 +1,11 @@
+defaults:
+  platformName: defaultMgr
+  hwSku: null
+  swSku: null
+  expiredTime: null
+devices:
+- deviceType: 'ece'
+  deviceSn: 'A111111111111'
+  deviceKey: ''
+  model: 'ECE100N'
+  description: 'test'

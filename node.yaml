@@ -1,0 +1,15 @@
+defaults:
+  organizationName: 'automate_test'
+  templateName: 'automate_test'
+  interfaceStandard:
+    ethernetCount: 4
+    usb0: false
+    wlm0: false
+    wwan0: false
+    wwan1: false
+  location:
+    address: ''
+    latitude: 0
+    longitude: 0
+nodes:
+- name: 'node-cli-20260702-2'
