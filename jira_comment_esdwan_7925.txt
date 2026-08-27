@@ -1,0 +1,6 @@
+设计文档摘要：
+1. connection.down：在 ping_conf.json 的 target 增加 is_check_connection_down、check_connection_down_threshold。字段不存在则不检查；threshold 不存在默认 10。fping.py 按 target 判断丢包率，丢包率 > threshold 触发 connection.down。
+2. connection.down 事件：category=vpn，severity=0，object=connect_name=<outbound_interface>，message 固定为“Connection <outbound_interface> is down , Packet loss rate : <rate>%.”。状态存储到 /opt/cbc/ipm/cache/event_used_data_cache.json，格式复用现有 event_used_data_cache.json 的 last_update_* / last_update_info 结构，metric=connection.down，tags=connect_name=...，value=PROBLEM/OK。仅状态变化时发事件。
+3. traffic.failover.cellular：10_event_push.py 读取配置文件。argus-agent 路径 /root/cbc/agent/agent/config/traffic_failover_cellular_check.json；arm-argus-agent 路径 /etc/cbc/agent/traffic_failover_cellular_check.json。配置不存在不检查；结构为 {"wwan0": {"is_check_traffic_failover_cellular": true}}。
+4. traffic.failover.cellular 判定：执行 ip route，只看 default 路由。当 default 路由 dev 等于配置接口名时，判定切到 4G，触发 traffic.failover.cellular。category=cellular，severity=0，object=outgoing_interface=<iface>，message 固定为“Traffic failed over to cellular backup link (4G)”。状态存储复用各自 agent 的 event_used_data_cache.json，metric=traffic.failover.cellular，tags=outgoing_interface=...，value=PROBLEM/OK。仅状态变化时发事件。
+5. 事件分类映射补充：connection.down -> vpn；traffic.failover.cellular -> cellular。
