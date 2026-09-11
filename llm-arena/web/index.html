@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LLM 竞技场</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <h1>LLM 竞技场</h1>
+    <p class="sub" id="subtitle">加载中…</p>
+  </header>
+
+  <section class="stage">
+    <div class="hp-row">
+      <div class="hp-card left" id="cardLeft">
+        <div class="hp-head">
+          <span class="who" data-role="name">—</span>
+          <span class="tag" data-role="model">—</span>
+        </div>
+        <div class="hp-track"><div class="hp-fill" data-role="fill"></div></div>
+        <div class="hp-foot">
+          <span class="hp-num" data-role="hp">—</span>
+          <span class="statuses" data-role="statuses"></span>
+        </div>
+      </div>
+
+      <div class="vs">VS</div>
+
+      <div class="hp-card right" id="cardRight">
+        <div class="hp-head">
+          <span class="tag" data-role="model">—</span>
+          <span class="who" data-role="name">—</span>
+        </div>
+        <div class="hp-track"><div class="hp-fill" data-role="fill"></div></div>
+        <div class="hp-foot">
+          <span class="statuses" data-role="statuses"></span>
+          <span class="hp-num" data-role="hp">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="arena"></canvas>
+      <div class="round-badge" id="roundBadge" hidden></div>
+      <div class="result" id="result" hidden></div>
+    </div>
+
+    <div class="controls">
+      <button id="btnStart" class="btn primary">开始对打</button>
+      <button id="btnStop" class="btn" disabled>停止</button>
+      <button id="btnReset" class="btn">重置</button>
+      <span class="status" id="status">等待开始</span>
+    </div>
+
+    <div class="skills">
+      <div class="skills-title">固定技能池（双方只能从这里出招）</div>
+      <div class="skills-grid" id="skillPool"></div>
+    </div>
+  </section>
+
+  <aside class="logwrap">
+    <div class="log-head">
+      <span>战报</span>
+      <button id="btnClearLog" class="mini">清空</button>
+    </div>
+    <div class="log" id="log">
+      <p class="log-empty">点「开始对打」，两个模型会自己决定每回合出什么招。</p>
+    </div>
+  </aside>
+
+</div>
+<script src="game.js"></script>
+</body>
+</html>

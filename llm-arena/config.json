@@ -1,0 +1,21 @@
+{
+  "port": 8000,
+  "max_hp": 200,
+  "request_timeout": 90,
+  "max_tokens": 1200,
+  "turn_delay_ms": 400,
+  "fighters": {
+    "left": {
+      "name": "DeepSeek Flash",
+      "model": "deepseek-flash",
+      "base_url": "https://api.deepseek.com/v1/chat/completions",
+      "api_key": "sk-2a6982d075264165b15d66c94544b520"
+    },
+    "right": {
+      "name": "Gemini 2.5 Flash",
+      "model": "gemini-2.5-flash",
+      "base_url": "https://api.tensoris.ai/v1/chat/completions",
+      "api_key": "sk-840644ac158fc7495c2d14575822e2ed183e2cc3e0d07983402214da8a8ac1b3"
+    }
+  }
+}
