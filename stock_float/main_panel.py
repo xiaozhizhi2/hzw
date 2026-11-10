@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 
 import data_api
 from charts import KLineChart, MinuteChart
+from float_ball import EPS_CHANGE
 from watchlist import Watchlist
 
 PERIODS = [("day", "日K"), ("week", "周K"), ("month", "月K")]
@@ -133,12 +134,15 @@ class MainPanel(QMainWindow):
         lbl = QLabel("代码/名称搜索：")
         top.addWidget(lbl)
         self._search = QLineEdit()
-        self._search.setPlaceholderText("输入6位代码，如 600000 / sh600000，回车添加")
+        self._search.setPlaceholderText("输入代码：600000 / sh600000 / kr005930 / krKOSPI，回车添加")
         self._search.returnPressed.connect(self._on_add)
         top.addWidget(self._search, 1)
         btn = QPushButton("添加")
         btn.clicked.connect(self._on_add)
         top.addWidget(btn)
+        del_btn = QPushButton("删除")
+        del_btn.clicked.connect(self._on_delete)
+        top.addWidget(del_btn)
         for name, code in QUICK:
             q = QPushButton(name)
             q.setProperty("quick", True)
@@ -198,6 +202,16 @@ class MainPanel(QMainWindow):
         self.watchlist.add(code)
         self._status.setText(f"已添加 {code}")
 
+    def _on_delete(self) -> None:
+        row = self._table.currentRow()
+        if row < 0:
+            self._status.setText("请先点击表格选中要删除的行")
+            return
+        code = next((c for c, r in self._rows.items() if r == row), None)
+        if code:
+            self._remove_code(code)
+            self._status.setText(f"已删除 {code}")
+
     def _remove_code(self, code: str) -> None:
         self.watchlist.remove(code)
         row = self._rows.pop(code, None)
@@ -225,7 +239,9 @@ class MainPanel(QMainWindow):
             self._rows[code] = row
             for col in range(5):
                 self._table.setItem(row, col, QTableWidgetItem(""))
-        color = COLOR_UP if q.is_up else COLOR_DOWN
+        # 涨/跌/平三态：涨红、跌绿、平盘用文本白
+        color = COLOR_UP if q.change > EPS_CHANGE \
+            else COLOR_DOWN if q.change < -EPS_CHANGE else COLOR_TEXT
         vals = [q.short_name, q.code, f"{q.price:.2f}", f"{q.change:+.2f}", f"{q.change_pct:+.2f}%"]
         for col, text in enumerate(vals):
             item = self._table.item(row, col)

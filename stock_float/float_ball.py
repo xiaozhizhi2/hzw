@@ -383,7 +383,10 @@ class FloatBall(QWidget):
                    f"{self._quote.price:.2f}")
 
         p.setFont(font_small)
-        p.setPen(QColor("#c9ced6"))
+        # 涨跌幅文字：涨红、跌绿、平盘白
+        pct_color = UP if self._quote.change > EPS_CHANGE \
+            else DOWN if self._quote.change < -EPS_CHANGE else "#ffffff"
+        p.setPen(QColor(pct_color))
         p.drawText(rect.adjusted(2, rect.height() - 26, -2, -8),
                    Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
                    f"{self._quote.change_pct:+.2f}%")
